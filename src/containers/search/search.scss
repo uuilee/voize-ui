@@ -1,57 +1,77 @@
-#search {
+#search-main {
+  width: 100%;
   display: flex;
   flex-direction: row;
   text-align: center;
   font-family: "nato", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-  #search-bar {
+  #search-results {
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
     background: #31353a;
-    padding-top: 1em;
 
-    #search-bar-input {
+    #search-result-summary {
       display: flex;
-      flex-direction: row;
-      padding: 0 10px 10px 10px;
-
-      input {
-        width: 300px;
-        padding: 10px;
-        font-size: 12pt;
-        border: 0;
-        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      background: black;
+      color: white;
+      font-size: 9pt;
+      padding: 10px;
+      text-align: left;
+      #search-term {
+        justify-content: flex-start;
+        flex-grow: 1;
       }
-
-      #search-button {
-        font-size: 14pt;
-        color: white;
-        background: #1f4aa4;
-        border: 0;
-        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-        margin-left: 10px;
+      #result-count {
+        justify-content: flex-end;
       }
     }
 
-    #search-bar-results {
+    #search-result-items {
       display: flex;
       flex-direction: column;
       padding: 0 10px 10px 10px;
-      color: #ffffff;
+      color: #e8e8e8;
 
       .search-result {
-        .header {
-          margin-bottom: 4px;
-          font-weight: bold;
-        }
-
-        font-size: 9pt;
+        font-size: 10pt;
         text-align: left;
         margin-top: 5px;
         padding: 5px;
         background: #595d61;
         box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+        &:hover {
+          background: #616569;
+          cursor: pointer;
+        }
+
+        .search-result-header {
+          font-size: 11pt;
+          margin-bottom: 4px;
+          font-weight: bold;
+        }
+
+        .search-result-segment {
+          display: flex;
+          flex-direction: row;
+          border-top: 1px solid #6b6e73;
+          padding: 2px 0 2px 0;
+
+          em {
+            color: #3f96ff;
+            font-weight: bold;
+            font-style: normal;
+          }
+
+          .excerpt {
+            flex-grow: 1;
+          }
+
+          .time-range {
+            margin-right: 15px;
+          }
+        }
       }
     }
   }
@@ -60,6 +80,12 @@
     flex-grow: 1;
     padding: 1em;
     color: #535353;
+    overflow-y: scroll;
+    text-align: left;
+
+    h3 {
+      margin-top: 0;
+    }
 
     .box {
       background: white;

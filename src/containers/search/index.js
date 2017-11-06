@@ -1,57 +1,77 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import _ from 'lodash'
+import numeral from 'numeral'
+import {search, showDetails} from '../../modules/search'
 import './search.css';
 
-export default () => (
-  <div id="search">
-    <div id="search-bar">
-      <div id="search-bar-input">
-        <input type="text" placeholder="Search keywords ..."/>
-        <button id="search-button">Search</button>
-      </div>
-      <div id="search-bar-results">
-        <div className="search-result">
-          <div className="header"> Dummy result</div>
-          Lorem ipsum dolor sit amet
-        </div>
-        <div className="search-result">
-          <div className="header"> Dummy result</div>
-          Maecenas in mi sed enim cursus hendrerit.
-        </div>
-        <div className="search-result">
-          <div className="header"> Dummy result</div>
-          Sed aliquam lacinia justo at consequat.
-        </div>
-      </div>
-    </div>
-    <div className="details">
-      <div className="box">
-        <div className="box-header">
-          Transcript
-        </div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut nibh posuere, sollicitudin metus at,
-        pretium ipsum. Integer eget finibus ipsum, ut accumsan eros. Donec quis risus luctus, pellentesque magna nec,
-        lacinia ante. Vestibulum sed tempus eros. Nunc ut sapien et mi vestibulum feugiat quis sed mauris. Cras ut
-        fermentum tortor, et suscipit ante. Etiam venenatis risus congue nisl tincidunt lobortis. In lobortis ornare
-        consectetur. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ut
-        vehicula nibh. Nunc bibendum risus eu finibus dictum. Fusce leo nunc, interdum non fringilla ut, auctor vitae
-        nulla. Nam dui diam, congue eu vulputate ac, sagittis ut purus. Sed sollicitudin viverra imperdiet. Sed sed
-        lobortis erat. Curabitur feugiat nulla arcu, sed tincidunt urna maximus a.
+class Search extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-        Maecenas in mi sed enim cursus hendrerit. Cras eu consequat turpis, nec efficitur eros. Etiam id sapien quis
-        nunc convallis euismod. In auctor a eros quis dictum. Sed aliquam lacinia justo at consequat. Nulla feugiat, leo
-        eget blandit rhoncus, justo nibh egestas enim, et pharetra libero tortor eget ligula. Curabitur magna urna,
-        venenatis eget justo vel, consectetur interdum dolor. Phasellus volutpat tellus et consequat facilisis. Aliquam
-        et lorem scelerisque tortor faucibus varius vitae in arcu. Morbi fringilla erat quis gravida consectetur. In
-        eget commodo dolor. Quisque consectetur faucibus neque quis gravida. Suspendisse nisl nulla, viverra a egestas
-        placerat, ullamcorper et ex. Maecenas mollis tortor vitae odio condimentum, sed dignissim nulla aliquam.
-        Vestibulum ac auctor velit, vel mattis risus.
-      </div>
-      <div className="box">
-        <div className="box-header">
-          Tags
+  render() {
+    return (
+      <div id="search-main">
+        <div id="search-results">
+          <div id="search-result-summary">
+            <div id="search-term">{this.props.searchTerm}</div>
+            <div id="result-count">{Object.entries(this.props.results).length} result(s)</div>
+          </div>
+          <div id="search-result-items">
+            {Object.entries(this.props.results).map(resultGroup => (
+              <div className="search-result" key={resultGroup[0]}
+                   onClick={() => this.props.showDetails(resultGroup[0].split('|')[1])}>
+                <div className="search-result-header">{resultGroup[0].split('|')[0]}</div>
+                {resultGroup[1].map(result => (
+                  <div className="search-result-segment" key={result.highlight.message}>
+                    <div className="excerpt"
+                         dangerouslySetInnerHTML={{__html: '...' + result.highlight.message + '...'}}/>
+                    <div className="time-range">{numeral(result._source.startMs / 1000).format('00:00:00')}</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-        Dummy Tag
+        <div className="details">
+          {this.props.details._source &&
+          <div>
+            <h3>{this.props.details._source.fileName}</h3>
+            <div className="box">
+              <div className="box-header">
+                Transcript
+              </div>
+              {this.props.details._source.combinedMessage}
+            </div>
+            <div className="box">
+              <div className="box-header">
+                Tags
+              </div>
+              Dummy Tag
+            </div>
+          </div>
+          }
+        </div>
       </div>
-    </div>
-  </div>
-)
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  let groupedResults = _.groupBy(state.search.results, item => item._source.fileName + "|" + item._source.voiceId)
+  groupedResults = _.mapValues(groupedResults, value => _.sortBy(value, '_source.startMs', '_source.endMs'))
+  return {
+    results: groupedResults,
+    details: state.search.details,
+    searchTerm: state.search.searchTerm,
+    searching: state.search.searching
+  }
+}
+
+const mapDispatchToProps = {search, showDetails}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Search)

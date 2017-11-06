@@ -3,13 +3,34 @@
   width: 100%;
 
   header {
-    background: #404040;
-
-    a {
-      padding: 10px;
-      color: white;
+    display: flex;
+    background: #1e1e1e;
+    color: white;
+    #search {
+      display: flex;
+      justify-content: flex-start;
+      input {
+        height: 30px;
+        width: 400px;
+        padding: 10px;
+        font-size: 12pt;
+        border: 0;
+        background: #1e1e1e;
+        color: white;
+      }
     }
-
+    #logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+    }
+    #actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-grow: 1;
+    }
   }
 
   main {
