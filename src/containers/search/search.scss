@@ -1,0 +1,91 @@
+#search {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  font-family: "nato", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  #search-bar {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    background: #31353a;
+    padding-top: 1em;
+
+    #search-bar-input {
+      display: flex;
+      flex-direction: row;
+      padding: 0 10px 10px 10px;
+
+      input {
+        width: 300px;
+        padding: 10px;
+        font-size: 12pt;
+        border: 0;
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+      }
+
+      #search-button {
+        font-size: 14pt;
+        color: white;
+        background: #1f4aa4;
+        border: 0;
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+        margin-left: 10px;
+      }
+    }
+
+    #search-bar-results {
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px 10px 10px;
+      color: #ffffff;
+
+      .search-result {
+        .header {
+          margin-bottom: 4px;
+          font-weight: bold;
+        }
+
+        font-size: 9pt;
+        text-align: left;
+        margin-top: 5px;
+        padding: 5px;
+        background: #595d61;
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .details {
+    flex-grow: 1;
+    padding: 1em;
+    color: #535353;
+
+    .box {
+      background: white;
+      text-align: left;
+      padding: 10px;
+      margin-bottom: 1em;
+      box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+      .box-header {
+        font-weight: bold;
+        padding-bottom: 0.5em;
+      }
+    }
+  }
+}
+
+.logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
