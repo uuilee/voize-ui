@@ -1,14 +1,22 @@
-html {
-  height: 100%;
-}
+// reset
 
-body {
+* {
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: sans-serif;
 }
 
-#root {
+html, body, #root, .app {
   height: 100%;
+  overflow: hidden;
 }
+
+html {
+  font-family: 'Roboto', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// fonts
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');

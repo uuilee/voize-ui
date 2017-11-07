@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Route} from 'react-router-dom'
 import Search from '../search'
+import Layout from '../layout'
+import Spacer from '../spacer'
 import {search} from '../../modules/search'
 import {startRecording, stopRecording} from '../../modules/record'
 import _ from 'lodash'
@@ -24,31 +26,45 @@ class App extends React.Component {
   render() {
     return (
       <div id="app">
-        <header>
-          <div id="search">
-            <input type="text"
-                   placeholder="Search"
-                   value={this.state.searchTerm}
-                   onChange={(event) => this.setState({searchTerm: event.target.value})}
-                   onKeyPress={_.bind(this.handleKeyPress, this)}/>
-          </div>
-          <div id="logo">Logo</div>
-          <div id="actions">
-            {!this.props.recording
-              ? <a onClick={this.props.startRecording}>Start Record</a>
-              : <a onClick={this.props.stopRecording}>Stop Record</a>
-            }
-          </div>
-        </header>
+        <Layout>
+          <Layout direction="horizontal" height="72px" style={{backgroundColor: '#222222', paddingLeft: 15, paddingRight: 15 }}>
+            <Spacer id="search" size={0} style={{ width: 200, alignSelf: 'center' }} >
+                <input type="text"
+                       placeholder="Search"
+                       value={this.state.searchTerm}
+                       onChange={(event) => this.setState({searchTerm: event.target.value})}
+                       onKeyPress={_.bind(this.handleKeyPress, this)}/>
+            </Spacer>
 
-        <main>
-          <Route exact path="/" component={Search}/>
-        </main>
+            <Spacer style={{ textAlign: 'center', alignSelf: 'center' }}>
+              <img src="logo.svg"/>
+            </Spacer>
+
+            <Spacer size={0} style={{ width: 200, alignSelf: 'center' }} >
+              <div className="nav">Nav</div>
+            </Spacer>
+
+          </Layout>
+        </Layout>
       </div>
     )
   }
-
 }
+
+// DragDropContext(HTML5Backend)(Container)
+// <header>
+//   <div id="logo">Logo</div>
+//   <div id="actions">
+//     {!this.props.recording
+//       ? <a onClick={this.props.startRecording}>Start Record</a>
+//       : <a onClick={this.props.stopRecording}>Stop Record</a>
+//     }
+//   </div>
+// </header>
+//
+// <main>
+//   <Route exact path="/" component={Search}/>
+// </main>-->
 
 const mapStateToProps = state => {
   return {
