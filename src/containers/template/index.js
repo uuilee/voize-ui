@@ -52,16 +52,30 @@ const Search = ({
   <input type="text" placeholder="Search" onKeyPress={onQueryChange}/>
 </div>);
 
-const Dropdown = ({
-  children,
-  icon,
-  active,
-  onToggleDropdown
-}) => (<div className="dropdown">
-  <button className={'dropdown-' + icon} onClick={onToggleDropdown}/>
-  <div className={active ? "popup active" : "popup"}>{children}</div>
-  <div className={active ? "popup-background" : ""} onClick={onToggleDropdown}/>
-</div>);
+class Dropdown extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      active: false
+    }
+  }
+
+  onToggleDropdown (e) {
+    this.setState({ active: !this.state.active });
+  }
+
+  render () {
+    const { icon, children } = this.props;
+    const { active } = this.state;
+    return (<div className="dropdown">
+      <button className={'dropdown-' + icon} onClick={this.onToggleDropdown.bind(this)}/>
+      <div className={(active && children) ? "popup active" : "popup"}>
+        <div className="popup-inner">{children}</div>
+      </div>
+      <div className={active ? "popup-background" : ""} onClick={this.onToggleDropdown.bind(this)}/>
+    </div>)
+  }
+}
 
 const SearchResults = ({
   items,
@@ -192,7 +206,31 @@ export default ({
       <Spacer/>
       <Dropdown icon="plus" onToggleDropdown={onToggleDropdown} active={currentDropdown === 'upload'}></Dropdown>
       <Dropdown icon="mic" onToggleDropdown={onToggleDropdown} active={currentDropdown === 'record'}></Dropdown>
-      <Dropdown icon="jobs" onToggleDropdown={onToggleDropdown} active={currentDropdown === 'queue'}></Dropdown>
+      <Dropdown icon="jobs" onToggleDropdown={onToggleDropdown} active={currentDropdown === 'queue'}>
+        <Layout direction="vertical" padding="0">
+          <Layout className="job" direction="vertical" padding="8px 15px">
+            <Layout direction="horizontal" padding="0">
+              <div className="job-status pending">Processing</div>
+              <div className="job-started">Yesterday</div>
+            </Layout>
+            <div className="job-name">Job Name</div>
+          </Layout>
+          <Layout className="job" direction="vertical" padding="8px 15px">
+            <Layout direction="horizontal" padding="0">
+              <div className="job-status pending">Processing</div>
+              <div className="job-started">Yesterday</div>
+            </Layout>
+            <div className="job-name">Job Name</div>
+          </Layout>
+          <Layout className="job" direction="vertical" padding="8px 15px">
+            <Layout direction="horizontal" padding="0">
+              <div className="job-status pending">Processing</div>
+              <div className="job-started">Yesterday</div>
+            </Layout>
+            <div className="job-name">Job Name</div>
+          </Layout>
+        </Layout>
+      </Dropdown>
     </Layout>
     <Layout height="100%" direction="horizontal">
       <SearchResults items={items} currentItem={currentItem} onSelect={onSelect}/>
